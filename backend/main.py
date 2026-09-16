@@ -14,11 +14,13 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 from fastapi import BackgroundTasks, FastAPI, HTTPException, UploadFile
+from pydantic import BaseModel
 
 load_dotenv(dotenv_path=Path(__file__).resolve().parent.parent / ".env")
 
 from clients import get_minio_client, get_pg_connection, get_qdrant_client  # noqa: E402
 from processing import ensure_qdrant_collection, process_document  # noqa: E402
+from query import answer_question  # noqa: E402
 
 BUCKET_NAME = "documents"
 
@@ -139,3 +141,13 @@ async def upload_document(file: UploadFile, background_tasks: BackgroundTasks):
         "minio_object": object_name,
         "status": "uploaded",
     }
+
+
+class QueryRequest(BaseModel):
+    question: str
+    top_k: int = 5
+
+
+@app.post("/query")
+def query(req: QueryRequest):
+    return answer_question(req.question, top_k=req.top_k)

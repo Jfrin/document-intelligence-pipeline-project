@@ -7,3 +7,4 @@ minio==7.2.9
 python-multipart==0.0.9
 sentence-transformers==3.1.1
 pypdf==5.0.1
+anthropic==0.34.2
