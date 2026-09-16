@@ -1,2 +1,4 @@
 steps.txt
 env
+.env
+/data
