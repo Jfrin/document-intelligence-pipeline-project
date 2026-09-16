@@ -2,3 +2,4 @@ steps.txt
 env
 .env
 /data
+backend/__pycache__/clients.cpython-311.pyc
